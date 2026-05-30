@@ -1,0 +1,182 @@
+.service-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.1rem 0.85rem;
+  min-width: 118px;
+  max-width: 148px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text);
+  text-align: center;
+  transition: border-color 0.25s;
+  box-shadow: var(--shadow-sm);
+}
+
+.service-node:hover {
+  border-color: rgba(148, 163, 184, 0.55);
+}
+
+.service-node.aws {
+  border-color: rgba(245, 158, 11, 0.25);
+}
+
+.service-node.active {
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.service-node.alert {
+  border-color: rgba(239, 68, 68, 0.55);
+  animation: shake 0.45s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+.node-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+}
+
+.node-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.node-sub {
+  font-size: 0.64rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 16px;
+  border: 2px solid;
+  animation: pulse 1.8s ease infinite;
+  pointer-events: none;
+}
+
+.data-pulse {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  animation: blink 1s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.03); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.flow-canvas {
+  position: relative;
+  margin: 0.5rem 0 1rem;
+  padding: 1.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+}
+
+.flow-canvas-label {
+  position: absolute;
+  top: 0.75rem;
+  left: 1rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+.flow-diagram {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+  min-width: min-content;
+}
+
+.flow-connector {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  position: relative;
+}
+
+.flow-connector-line {
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.flow-connector-line.active {
+  background: rgba(8, 145, 178, 0.2);
+}
+
+.flow-connector-line.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  animation: flow-shuttle 1.2s ease infinite;
+}
+
+.flow-connector-arrow {
+  position: absolute;
+  right: -2px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.flow-connector-line.active + .flow-connector-arrow,
+.flow-connector.active .flow-connector-arrow {
+  color: var(--cyan);
+}
+
+@keyframes flow-shuttle {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (max-width: 700px) {
+  .flow-diagram {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .flow-connector { width: 24px; }
+}
