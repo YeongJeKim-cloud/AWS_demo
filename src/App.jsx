@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import FactoryTwin from './components/twin/FactoryTwin';
+import ControlCenter from './components/dashboard/ControlCenter';
 import Overview from './components/Overview';
 import Step1Receiving from './components/Step1Receiving';
 import Step2Assembly from './components/Step2Assembly';
@@ -11,6 +13,8 @@ import { STATIONS } from './data/stations';
 import './App.css';
 
 const VIEWS = {
+  twin: FactoryTwin,
+  dashboard: ControlCenter,
   overview: Overview,
   step1: Step1Receiving,
   step2: Step2Assembly,
@@ -23,7 +27,7 @@ const VIEWS = {
 const STEP_NUM = { step1: 1, step2: 2, step3: 3, step4: 4, step5: 5 };
 
 export default function App() {
-  const [active, setActive] = useState('overview');
+  const [active, setActive] = useState('twin');
   const View = VIEWS[active];
   const stepNum = STEP_NUM[active];
 
@@ -33,7 +37,7 @@ export default function App() {
   };
 
   return (
-    <div className="app app-worker">
+    <div className={`app app-worker ${active === 'twin' ? 'app-twin-mode' : ''}`}>
       <header className="app-header">
         <div className="header-inner">
           <div className="logo-block">
@@ -51,6 +55,8 @@ export default function App() {
                 className={[
                   active === s.id ? 'active' : '',
                   s.id === 'errors' ? 'nav-errors' : '',
+                  s.id === 'dashboard' ? 'nav-dashboard' : '',
+                  s.id === 'twin' ? 'nav-twin' : '',
                 ].filter(Boolean).join(' ')}
                 onClick={() => navigate(s.id)}
               >

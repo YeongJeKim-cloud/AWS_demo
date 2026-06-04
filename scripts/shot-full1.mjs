@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+import { mkdirSync } from 'node:fs';
+mkdirSync('shots/qa', { recursive: true });
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1680, height: 900 }, deviceScaleFactor: 2 });
+await page.goto('http://127.0.0.1:5173/', { waitUntil: 'networkidle' });
+await page.waitForTimeout(2200);
+const el = await page.$('.twin');
+await el.screenshot({ path: 'shots/qa/1-factory-full.png' });
+console.log('done');
+await browser.close();

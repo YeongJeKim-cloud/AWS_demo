@@ -10,10 +10,11 @@
   top: 0;
   z-index: 100;
   backdrop-filter: var(--glass);
-  background: rgba(255, 255, 255, 0.88);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.92));
+  border-top: 3px solid var(--green);
   border-bottom: 1px solid var(--border);
-  padding: 0.85rem 1.5rem;
-  box-shadow: var(--shadow-sm);
+  padding: 0.7rem 1.5rem;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04), 0 4px 18px rgba(15, 23, 42, 0.06);
 }
 
 .header-inner {
@@ -52,13 +53,15 @@
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: var(--text);
+  color: var(--hmi-text);
 }
 
 .logo-text p {
   margin: 0.1rem 0 0;
-  font-size: 0.72rem;
-  color: var(--text-muted);
+  font-size: 0.7rem;
+  color: var(--hmi-dim);
+  font-family: var(--hmi-mono);
+  letter-spacing: 0.02em;
 }
 
 .stage-nav {
@@ -66,27 +69,29 @@
   gap: 0.3rem;
   flex-wrap: wrap;
   padding: 0.25rem;
-  border-radius: 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  border-radius: 12px;
+  background: var(--hmi-inset);
+  border: 1px solid var(--hmi-line);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .stage-nav button {
   padding: 0.45rem 0.75rem;
-  border-radius: 10px;
+  border-radius: 9px;
   border: 1px solid transparent;
   background: transparent;
-  color: var(--text-muted);
-  font-size: 0.7rem;
-  font-weight: 600;
+  color: var(--hmi-dim);
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-family: var(--hmi-mono);
+  letter-spacing: 0.02em;
   transition: all 0.22s ease;
   white-space: nowrap;
 }
 
 .stage-nav button:hover {
-  color: var(--text);
-  background: #ffffff;
+  color: var(--hmi-text);
+  background: var(--hmi-panel-2);
 }
 
 .stage-nav button.active {
@@ -110,6 +115,20 @@
   box-shadow: 0 2px 12px rgba(34, 211, 238, 0.3);
 }
 
+.stage-nav button.nav-dashboard.active {
+  color: #fff;
+  background: linear-gradient(135deg, #22d3ee, #0891b2);
+  border-color: rgba(8, 145, 178, 0.5);
+  box-shadow: 0 2px 12px rgba(8, 145, 178, 0.3);
+}
+
+.stage-nav button.nav-twin.active {
+  color: #04121c;
+  background: linear-gradient(135deg, #5ee7f5, #16b6cc);
+  border-color: rgba(43, 214, 230, 0.55);
+  box-shadow: 0 2px 12px rgba(43, 214, 230, 0.35);
+}
+
 /* ── Main ── */
 .app-main {
   flex: 1;
@@ -119,13 +138,32 @@
   width: 100%;
 }
 
+.app-twin-mode {
+  min-height: 100dvh;
+  background: #03070f;
+}
+
+.app-twin-mode .app-header,
+.app-twin-mode .app-footer {
+  display: none;
+}
+
+.app-twin-mode .app-main {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
 .app-footer {
   text-align: center;
-  padding: 1.25rem 1.5rem 2rem;
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  border-top: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.7);
+  padding: 1rem 1.5rem 1.5rem;
+  font-size: 0.68rem;
+  color: var(--hmi-label);
+  font-family: var(--hmi-mono);
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--hmi-line);
+  background: var(--hmi-inset);
 }
 
 /* ── Panels ── */
@@ -261,17 +299,18 @@
   padding: 0.55rem 1.1rem;
   border-radius: 10px;
   border: 1px solid var(--border-bright);
-  background: rgba(255, 255, 255, 0.03);
+  background: #ffffff;
   color: var(--text-muted);
   font-size: 0.84rem;
   font-weight: 500;
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s;
 }
 
 .btn-ghost:hover {
   color: var(--text);
-  border-color: rgba(148, 163, 184, 0.4);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(148, 163, 184, 0.55);
+  background: var(--bg-card);
 }
 
 /* ── Metrics ── */

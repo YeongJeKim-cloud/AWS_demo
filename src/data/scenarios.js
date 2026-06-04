@@ -173,6 +173,170 @@ export const DEMO_SCENARIO = [
   },
 ];
 
+// ── Single-alert quality demo (Assembly torque anomaly → lot quarantine) ──
+
+/** The one active plant alarm: cross-thread torque curve at assembly. */
+export const ASSEMBLY_ALERT = {
+  id: 'torque-crossthread',
+  zone: 'step2',
+  eqTag: 'ASSY-02',
+  sensorTag: 'TRQ-4471',
+  priority: 'P1',
+  ts: '13:42:07.881',
+  station: 'Assembly Line 2 · Station 4',
+  module: 'HVDB SN #12345',
+  lot: 'A123',
+  lotType: 'Fastener',
+  partner: 'B456',
+  title: 'TORQUE PROFILE FAULT — CROSS-THREAD SUSPECTED',
+  summary: 'Peak torque reached 50 Nm but the curve shape is out of envelope — fastener seated loose.',
+  detectMs: 87,
+  time: 'just now',
+};
+
+/** Normal vs abnormal torque curve — side-by-side teaching content for the modal. */
+export const TORQUE_COMPARE = {
+  insight:
+    'Even when the peak torque is the same 50 Nm, the fastening is defective if the path to that 50 Nm is different. Some defects only show up in the shape of the curve.',
+  normal: {
+    key: 'normal',
+    label: 'Normal fastening',
+    labelEn: 'Normal fastening',
+    verdict: 'PASS',
+    notes: [
+      { t: 'Steady rise', d: 'Torque climbs gently, step by step, with rotation angle' },
+      { t: 'Snug point', d: 'Bearing face seats normally against the joint' },
+      { t: 'Peak held', d: 'Holds a stable plateau after reaching the 50 Nm target' },
+    ],
+    callouts: [
+      { id: 'n1', title: 'Normal rise', detail: 'Friction increases steadily', x: 25, y: 47 },
+      { id: 'n2', title: 'Snug point', detail: 'Face makes contact, preload starts to build', x: 52, y: 34 },
+      { id: 'n3', title: 'Normal plateau', detail: 'Holds near 50 Nm long enough', x: 73, y: 20 },
+    ],
+  },
+  crossThread: {
+    key: 'crossThread',
+    label: 'Cross-thread suspect',
+    labelEn: 'Cross-thread suspect',
+    verdict: 'DEFECT',
+    notes: [
+      { t: 'Peak reached too early', d: 'Threads cross at an angle, so torque spikes for little rotation' },
+      { t: 'Short plateau', d: 'The brief hold means the joint is actually seated loose' },
+      { t: 'Same peak, still a defect', d: '50 Nm matches, but the abnormal path means lost preload' },
+    ],
+    callouts: [
+      { id: 'b1', title: 'Abnormal spike', detail: 'Torque jumps too fast for the rotation', x: 31, y: 33 },
+      { id: 'b2', title: 'Early peak', detail: 'Path to target torque is outside the normal envelope', x: 50, y: 15 },
+      { id: 'b3', title: 'Short hold', detail: 'Same 50 Nm, but the clamp force is too low', x: 74, y: 29 },
+    ],
+  },
+  metrics: [
+    { label: 'Peak torque', normal: '50 Nm', bad: '50 Nm', sameButBad: true },
+    { label: 'Plateau length', normal: 'Long · stable', bad: 'Short · loose' },
+    { label: 'Rise slope', normal: 'Gentle · stepped', bad: 'Steep · early peak' },
+    { label: 'Verdict', normal: 'PASS', bad: 'Cross-thread suspect' },
+  ],
+  catches: [
+    'Cross-thread — peak is right but the plateau is short, so the joint is loose',
+    'Over-stretch — past the yield point, the fastener deforms and loses preload',
+    'Paint or oil on the bearing face — the early curve looks off',
+  ],
+  operatorPrompt:
+    'Right here the operator decides whether to treat this as a single bad part or a lot-level risk and quarantine it. Choosing quarantine automatically locks every process using LOT-A123 — warehouse stock, in-progress modules, the EOL queue, and vehicles waiting to ship.',
+};
+
+/**
+ * When Lot A123 is quarantined, the same lot is held across every stage.
+ * Ordered along the production flow: warehouse → assembly line → assembly cell → HVDB EOL → vehicle EOL.
+ */
+export const QUARANTINE_STAGES = [
+  {
+    id: 'warehouse',
+    zone: 'warehouse',
+    eqTag: 'WRH-STK',
+    icon: 'Warehouse',
+    stage: 'Warehouse',
+    img: '/zone-warehouse.jpg',
+    item: 'Remaining Fastener Lot A123 stock',
+    count: '4,872 pcs',
+    unit: 'pcs',
+    action: 'HOLD — release to assembly blocked',
+    role: 'upstream',
+  },
+  {
+    id: 'assembly',
+    zone: 'step2',
+    eqTag: 'ASSY-02',
+    icon: 'Wrench',
+    stage: 'Assembly Line 2',
+    img: '/zone-assembly.jpg',
+    item: 'HVDB #12345 on station + in-progress builds',
+    count: '6 modules',
+    unit: 'modules',
+    action: 'LINE STOP — conveyor halted, module quarantined',
+    role: 'source',
+  },
+  {
+    id: 'cell',
+    zone: 'step2',
+    eqTag: 'CELL-02',
+    icon: 'Cpu',
+    stage: 'Assembly Cell',
+    img: '/zone-cell.jpg',
+    item: 'Robot cell builds using Lot A123',
+    count: '8 modules',
+    unit: 'modules',
+    action: 'CELL LOCKOUT — robot cell stopped and isolated',
+    role: 'source',
+  },
+  {
+    id: 'hvdb',
+    zone: 'step3',
+    eqTag: 'EOL-03',
+    icon: 'Cpu',
+    stage: 'HVDB EOL',
+    img: '/zone-hvdb.jpg',
+    item: 'Built modules containing Lot A123',
+    count: '14 modules',
+    unit: 'modules',
+    action: 'QUARANTINE — pulled from test queue',
+    role: 'downstream',
+  },
+  {
+    id: 'vehicle',
+    zone: 'step4',
+    eqTag: 'VHCL-04',
+    icon: 'CarFront',
+    stage: 'Vehicle EOL',
+    img: '/zone-vehicle.jpg',
+    item: 'Pre-ship vehicles with a Lot A123 module',
+    count: '3 vehicles',
+    unit: 'vehicles',
+    action: 'SHIPMENT HOLD — blocked at gate',
+    role: 'downstream',
+  },
+];
+
+export const LOT_TRACE_SUMMARY = [
+  { id: 'root', label: 'Fastener LOT-A123', value: 'trigger lot', tone: 'red' },
+  { id: 'stock', label: 'Warehouse stock', value: '4,872 pcs', tone: 'violet' },
+  { id: 'assy', label: 'Assembly WIP', value: '6 modules', tone: 'violet' },
+  { id: 'eol', label: 'HVDB EOL queue', value: '14 modules', tone: 'violet' },
+  { id: 'vehicle', label: 'Vehicle EOL', value: '3 vehicles', tone: 'violet' },
+  { id: 'field', label: 'Field exposure', value: '0 vehicles', tone: 'green' },
+];
+
+/** P&ID-style line mimic stations (left→right material flow). */
+export const MIMIC_STATIONS = [
+  { id: 'supplier', tag: 'SUP-00', name: 'Suppliers', icon: 'Truck', readout: 'COA OK', kind: 'src' },
+  { id: 'step1', tag: 'RCV-01', name: 'Receiving', icon: 'PackageSearch', readout: 'AQL 32/32', step: 1 },
+  { id: 'warehouse', tag: 'WRH-STK', name: 'Warehouse', icon: 'Warehouse', readout: 'LOT A123', kind: 'store' },
+  { id: 'step2', tag: 'ASSY-02', name: 'Assembly', icon: 'Wrench', readout: 'TRQ FAULT', step: 2, alert: true },
+  { id: 'step3', tag: 'EOL-03', name: 'HVDB EOL', icon: 'Cpu', readout: '1.5 mΩ', step: 3 },
+  { id: 'step4', tag: 'VHCL-04', name: 'Vehicle EOL', icon: 'CarFront', readout: 'IMD OK', step: 4 },
+  { id: 'step5', tag: 'FLT-05', name: 'Fleet', icon: 'Radio', readout: '2,400 ▸', step: 5 },
+];
+
 export const TRACE_GRAPH = {
   nodes: [
     { id: 'lot-a', label: 'Lot A123', type: 'fastener', status: 'ok' },

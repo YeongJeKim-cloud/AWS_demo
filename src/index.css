@@ -1,5 +1,5 @@
 :root {
-  --bg-deep: #f1f5f9;
+  --bg-deep: #eef2f7;
   --bg-panel: #ffffff;
   --bg-card: #f8fafc;
   --bg-elevated: #ffffff;
@@ -35,6 +35,29 @@
   --chart-grid: rgba(148, 163, 184, 0.35);
   --tooltip-bg: #ffffff;
   --tooltip-border: #e2e8f0;
+
+  /* ── Industrial HMI tokens — light MES / Ignition Perspective style ── */
+  --hmi-bg: #eef2f7;
+  --hmi-panel: #ffffff;
+  --hmi-panel-2: #f8fafc;
+  --hmi-inset: #f1f5f9;
+  --hmi-bezel: #e2e8f0;
+  --hmi-line: #e2e8f0;
+  --hmi-line-bright: #cbd5e1;
+  --hmi-text: #1e293b;
+  --hmi-dim: #64748b;
+  --hmi-label: #94a3b8;
+  --hmi-green: #16a34a;
+  --hmi-green-dim: rgba(22, 163, 74, 0.12);
+  --hmi-amber: #d97706;
+  --hmi-amber-dim: rgba(217, 119, 6, 0.13);
+  --hmi-red: #dc2626;
+  --hmi-red-dim: rgba(220, 38, 38, 0.10);
+  --hmi-cyan: #0891b2;
+  --hmi-cyan-dim: rgba(8, 145, 178, 0.10);
+  --hmi-violet: #7c3aed;
+  --hmi-violet-dim: rgba(124, 58, 237, 0.10);
+  --hmi-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 *,
@@ -68,9 +91,9 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 55% at 8% -5%, rgba(34, 197, 94, 0.08), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 95% 8%, rgba(8, 145, 178, 0.06), transparent 50%),
-    radial-gradient(ellipse 45% 35% at 50% 105%, rgba(245, 158, 11, 0.05), transparent 55%);
+    radial-gradient(ellipse 70% 55% at 8% -5%, rgba(22, 163, 74, 0.05), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 95% 8%, rgba(8, 145, 178, 0.05), transparent 50%),
+    radial-gradient(ellipse 45% 35% at 50% 105%, rgba(234, 133, 0, 0.04), transparent 55%);
   pointer-events: none;
   z-index: 0;
 }
@@ -80,10 +103,10 @@ body::after {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+    linear-gradient(rgba(100, 116, 139, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.05) 1px, transparent 1px);
   background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black, transparent);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 25%, black, transparent);
   pointer-events: none;
   z-index: 0;
 }

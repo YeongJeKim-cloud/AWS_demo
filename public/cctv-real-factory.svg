@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="CCTV view of an automotive robot fastening cell">
+  <defs>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a6268"/>
+      <stop offset=".5" stop-color="#4a5055"/>
+      <stop offset="1" stop-color="#35393d"/>
+    </linearGradient>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f565b"/>
+      <stop offset="1" stop-color="#30363a"/>
+    </linearGradient>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a9b1b6"/>
+      <stop offset=".45" stop-color="#667076"/>
+      <stop offset="1" stop-color="#2d3337"/>
+    </linearGradient>
+    <linearGradient id="robot" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c76d24"/>
+      <stop offset=".42" stop-color="#a44c17"/>
+      <stop offset="1" stop-color="#5f2d14"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="2" seed="9"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 .16"/>
+      </feComponentTransfer>
+      <feBlend mode="soft-light" in2="SourceGraphic"/>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#101315" flood-opacity=".5"/>
+    </filter>
+    <pattern id="mesh" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M0 0h36M0 0v36" fill="none" stroke="#1c2226" stroke-width="3" opacity=".62"/>
+      <path d="M18 0v36M0 18h36" fill="none" stroke="#6b7378" stroke-width="1" opacity=".22"/>
+    </pattern>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M0 0h4v1H0z" fill="#fff" opacity=".06"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="#31383d"/>
+  <path d="M0 0h1600v255H0z" fill="url(#wall)"/>
+  <path d="M0 250 1600 190v710H0z" fill="url(#floor)"/>
+
+  <g opacity=".28" fill="none" stroke="#c5ccd0" stroke-width="2">
+    <path d="M120 900 500 230M390 900 650 225M680 900 800 218M980 900 970 212M1260 900 1130 205M1510 900 1280 198"/>
+    <path d="M0 812h1600M0 714h1600M0 610h1600M0 498h1600M0 382h1600"/>
+  </g>
+
+  <g opacity=".82">
+    <rect x="88" y="300" width="640" height="292" fill="#22272a"/>
+    <rect x="88" y="300" width="640" height="292" fill="url(#mesh)"/>
+    <g stroke="#d3a12c" stroke-width="11">
+      <path d="M88 300v292M728 300v292M300 285v318M520 275v335"/>
+    </g>
+  </g>
+
+  <g opacity=".7">
+    <rect x="92" y="114" width="180" height="74" rx="5" fill="#697278"/>
+    <rect x="122" y="136" width="120" height="26" rx="3" fill="#2e363b"/>
+    <rect x="320" y="92" width="230" height="92" rx="6" fill="#5e686e"/>
+    <rect x="354" y="120" width="162" height="28" rx="3" fill="#2e363b"/>
+    <rect x="1160" y="86" width="288" height="106" rx="7" fill="#5f676b"/>
+    <rect x="1196" y="118" width="214" height="38" rx="4" fill="#2d3438"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M686 705 1110 644 1244 730 818 802z" fill="#171b1e"/>
+    <path d="M710 650 1128 590 1254 666 838 732z" fill="#5a6267"/>
+    <path d="M738 620 1098 568 1200 628 846 684z" fill="url(#steel)"/>
+    <g fill="#1b2023" opacity=".75">
+      <ellipse cx="858" cy="608" rx="55" ry="22"/>
+      <ellipse cx="1024" cy="588" rx="55" ry="22"/>
+      <ellipse cx="1148" cy="624" rx="45" ry="18"/>
+    </g>
+    <g fill="#9fa8ad">
+      <rect x="740" y="666" width="90" height="17" rx="3" transform="rotate(-8 740 666)"/>
+      <rect x="940" y="636" width="110" height="17" rx="3" transform="rotate(-8 940 636)"/>
+      <rect x="1108" y="646" width="86" height="15" rx="3" transform="rotate(-8 1108 646)"/>
+    </g>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <ellipse cx="1048" cy="560" rx="145" ry="52" fill="#1e2326" opacity=".75"/>
+    <rect x="987" y="505" width="135" height="92" rx="20" fill="url(#robot)"/>
+    <circle cx="1054" cy="504" r="74" fill="url(#robot)"/>
+    <circle cx="1054" cy="504" r="38" fill="#743618"/>
+    <path d="M1026 460 C962 426 895 386 843 335" fill="none" stroke="url(#robot)" stroke-width="76" stroke-linecap="round"/>
+    <circle cx="842" cy="334" r="54" fill="url(#robot)"/>
+    <path d="M815 320 C744 334 680 382 642 448" fill="none" stroke="url(#robot)" stroke-width="62" stroke-linecap="round"/>
+    <circle cx="638" cy="451" r="44" fill="url(#robot)"/>
+    <path d="M619 482 592 595" stroke="#22282b" stroke-width="38" stroke-linecap="round"/>
+    <path d="M596 596 574 646" stroke="#8b969b" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="574" cy="650" r="18" fill="#2a3034"/>
+    <g fill="none" stroke="#22282b" stroke-width="12" opacity=".8">
+      <path d="M1047 430 C1115 386 1166 362 1238 360"/>
+      <path d="M820 290 C780 234 744 200 680 176"/>
+    </g>
+  </g>
+
+  <g opacity=".92">
+    <rect x="1185" y="310" width="310" height="214" rx="8" fill="#22282c"/>
+    <rect x="1216" y="342" width="238" height="28" rx="4" fill="#82909a"/>
+    <rect x="1216" y="398" width="238" height="26" rx="4" fill="#77858e"/>
+    <rect x="1216" y="452" width="238" height="26" rx="4" fill="#77858e"/>
+    <path d="M1185 524h310" stroke="#d5a42e" stroke-width="9"/>
+  </g>
+
+  <g opacity=".5" stroke="#eef3f4" stroke-width="3" fill="none">
+    <path d="M650 446h70M862 408h90M1050 382h85M1260 270h130"/>
+    <path d="M720 446c18-34 46-53 82-58M952 408c28-32 60-46 98-42"/>
+  </g>
+
+  <rect width="1600" height="900" fill="#11161a" opacity=".12"/>
+  <rect width="1600" height="900" fill="url(#scan)"/>
+  <rect width="1600" height="900" fill="#7d858a" filter="url(#grain)" opacity=".18"/>
+  <path d="M0 0h1600v900H0z" fill="none" stroke="#0b0e10" stroke-width="36" opacity=".45"/>
+</svg>
