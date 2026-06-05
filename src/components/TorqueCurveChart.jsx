@@ -30,7 +30,7 @@ function buildData(curveKey) {
   }));
 }
 
-export default function TorqueCurveChart({ activeCurve = 'normal', compareAll = false, variant = 'light' }) {
+export default function TorqueCurveChart({ activeCurve = 'normal', compareAll = false, variant = 'light', scopeHeight = 150 }) {
   const scope = variant === 'scope';
   if (compareAll) {
     const data = TORQUE_CURVES.normal.points.map((_, i) => ({
@@ -73,7 +73,7 @@ export default function TorqueCurveChart({ activeCurve = 'normal', compareAll = 
           <p className="chart-desc">{curve.desc}</p>
         </div>
       )}
-      <ResponsiveContainer width="100%" height={scope ? 150 : 220}>
+      <ResponsiveContainer width="100%" height={scope ? scopeHeight : 220}>
         <LineChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="2 4" stroke={scope ? SCOPE_GRID : GRID_STROKE} />
           <XAxis dataKey="angle" stroke={scope ? '#94a3b8' : '#64748b'} fontSize={10} tick={{ fontFamily: scope ? 'JetBrains Mono, monospace' : undefined }} />

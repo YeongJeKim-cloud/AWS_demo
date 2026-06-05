@@ -236,6 +236,23 @@ export const TORQUE_COMPARE = {
     { label: 'Rise slope', normal: 'Gentle · stepped', bad: 'Steep · early peak' },
     { label: 'Verdict', normal: 'PASS', bad: 'Cross-thread suspect' },
   ],
+  /** Step-by-step "why is this a defect" story shown in the detail modal. */
+  defect: {
+    title: 'Why this is a defect',
+    subtitle: 'Cross-thread suspect · ASSY-02 · TRQ-4471',
+    mechanism:
+      'The bolt entered at a slight angle, so the threads grind across each other instead of meshing. Friction spikes early — the tool reads 50 Nm before the bearing face is seated, then stops driving. The peak "passes", but the real clamp load lands far below spec.',
+    chain: [
+      { n: 1, phase: 'Cross-threaded entry', detail: 'Bolt starts at an angle — threads jam across each other instead of meshing cleanly.', tone: 'cause' },
+      { n: 2, phase: 'Torque spikes early', detail: 'Thread friction shoots up over very little rotation, so the curve rises far too steeply.', tone: 'cause' },
+      { n: 3, phase: 'False 50 Nm peak', detail: 'Tool hits the 50 Nm cutoff before the face is seated, then stops — peak met, joint not.', tone: 'cause' },
+      { n: 4, phase: 'Short plateau = low preload', detail: 'No real seating hold, so clamp force lands ~40% under spec even though peak torque "passed".', tone: 'effect' },
+      { n: 5, phase: 'Loosens under vibration', detail: 'Under road vibration the under-clamped joint backs off and the connection turns intermittent.', tone: 'effect' },
+      { n: 6, phase: 'Field failure', detail: 'HVDB contact resistance climbs → heat → HV warning — the exact recall signature seen on Lot B456.', tone: 'field' },
+    ],
+    verdict:
+      'Peak torque alone would pass this bolt. Only the curve shape exposes the cross-thread — which is why the model scores the whole profile, not just the peak.',
+  },
   catches: [
     'Cross-thread — peak is right but the plateau is short, so the joint is loose',
     'Over-stretch — past the yield point, the fastener deforms and loses preload',

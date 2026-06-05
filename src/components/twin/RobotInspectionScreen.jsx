@@ -1,6 +1,8 @@
-import { useMemo } from 'react';
-import { AlertTriangle, ArrowLeft, Lock, ShieldAlert, Video } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { AlertTriangle, ArrowLeft, Lock, Search, ShieldAlert, Video } from 'lucide-react';
 import TorqueCurveChart from '../TorqueCurveChart';
+import CrossThreadDetailModal from './CrossThreadDetailModal';
 import { ASSEMBLY_ALERT, TORQUE_COMPARE } from '../../data/scenarios';
 
 function MetricRow({ label, normal, bad, flag }) {
@@ -16,27 +18,38 @@ function MetricRow({ label, normal, bad, flag }) {
   );
 }
 
-function CurveCard({ kind, data }) {
+function CurveCard({ kind, data, onInspect }) {
+  const interactive = typeof onInspect === 'function';
+  const Tag = interactive ? 'button' : 'div';
   return (
-    <div className={`robot-curve-card ${kind}`}>
+    <Tag
+      type={interactive ? 'button' : undefined}
+      className={`robot-curve-card ${kind}${interactive ? ' interactive' : ''}`}
+      onClick={interactive ? onInspect : undefined}
+    >
       <div className="robot-curve-head">
         <b>{data.label}</b>
         <span>{data.verdict}</span>
       </div>
       <div className="robot-curve-chart">
-        <TorqueCurveChart activeCurve={data.key} variant="scope" />
+        <TorqueCurveChart activeCurve={data.key} variant="scope" scopeHeight={100} />
         {data.callouts?.map((c) => (
           <i key={c.id} className="robot-curve-pin" style={{ left: `${c.x}%`, top: `${c.y}%` }}>
             {c.title}
           </i>
         ))}
+        {interactive && (
+          <span className="robot-curve-cta">
+            <Search size={16} /> Why is this a defect?
+          </span>
+        )}
       </div>
       <ul>
         {data.notes.map((n) => (
           <li key={n.t}><b>{n.t}</b><span>{n.d}</span></li>
         ))}
       </ul>
-    </div>
+    </Tag>
   );
 }
 
@@ -44,6 +57,7 @@ export default function RobotInspectionScreen({ onBack, onQuarantine }) {
   const a = ASSEMBLY_ALERT;
   const c = TORQUE_COMPARE;
   const metrics = useMemo(() => c.metrics, [c.metrics]);
+  const [showDefect, setShowDefect] = useState(false);
 
   return (
     <div className="robot-inspection">
@@ -86,13 +100,13 @@ export default function RobotInspectionScreen({ onBack, onQuarantine }) {
           <span><ShieldAlert size={18} /></span>
           <div>
             <h3>Torque Curve Problem</h3>
-            <p>Peak torque is identical, but the fastening process is abnormal.</p>
+            <p>Peak torque is identical, but the fastening process is abnormal. <b>Click the red curve to see why →</b></p>
           </div>
         </div>
 
         <div className="robot-curve-grid">
           <CurveCard kind="normal" data={c.normal} />
-          <CurveCard kind="bad" data={c.crossThread} />
+          <CurveCard kind="bad" data={c.crossThread} onInspect={() => setShowDefect(true)} />
         </div>
 
         <table className="robot-compare-table">
@@ -119,6 +133,10 @@ export default function RobotInspectionScreen({ onBack, onQuarantine }) {
           </button>
         </div>
       </aside>
+
+      <AnimatePresence>
+        {showDefect && <CrossThreadDetailModal onClose={() => setShowDefect(false)} />}
+      </AnimatePresence>
     </div>
   );
 }
