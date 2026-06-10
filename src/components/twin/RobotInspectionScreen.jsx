@@ -83,6 +83,14 @@ export default function RobotInspectionScreen({ onBack, onQuarantine }) {
           <i>REC</i>
         </div>
         <div className="cctv-live-screen">
+          <video
+            className="cctv-live-video"
+            src="/cctv-robot-cell.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
           <span className="cctv-time">10:06:30.247</span>
           <span className="cctv-cam">ASSY-02 / ROBOT CELL</span>
           <span className="cctv-reticle" />
